@@ -1,3 +1,5 @@
+# gnome sort is the same as insertion sort except instead of "inserting" the
+# item where it belongs, it moves it through a series of swaps.
 def gnomesort(a)
   a.start_logging
 
