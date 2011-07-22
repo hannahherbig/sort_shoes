@@ -26,7 +26,7 @@ def radixsort(a)
 
       a.replace(zeroes + orig + ones)
 
-      a.log
+      a.log if a.changed?
 
       break if a.sorted?
     end

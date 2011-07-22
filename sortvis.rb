@@ -6,6 +6,8 @@ rescue LoadError
 end
 
 class Array
+  attr_reader :logs
+
   def start_logging
     @logs = [dup]
     @logging = true
@@ -19,6 +21,10 @@ class Array
     raise "not logging" unless @logging
 
     @logs << dup
+  end
+
+  def changed?
+    @logs.last != dup
   end
 
   def save(file)
