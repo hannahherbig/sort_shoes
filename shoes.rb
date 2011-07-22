@@ -2,8 +2,8 @@
 $algos = %w(bubble cocktail comb heap insertion quick selection shell gnome
             oddeven stooge radix merge).sort
 
-$points = 50
-$pwidth = 10
+$points = 100
+$pwidth = 5
 $fps    = 10
 
 # don't touch anything down here unless you know what you're doing.
@@ -79,6 +79,29 @@ Shoes.app :width => $width, :height => $width + 200, :resizable => false do
 
     flow do
       @status   = para "status"
+      button 'settings', :align => :right do
+        dialog do
+          stack do
+            flow do
+              para "points: "
+              @points_el = edit_line $points
+            end
+
+            flow do
+              para "fps: "
+              @fps_el = edit_line $fps
+            end
+
+            button "save" do
+              $points = @points_el.text.to_i
+              $fps    = @fps_el.text.to_i
+              $pwidth = 500 / $points
+
+              close
+            end
+          end
+        end
+      end
       @progress = progress :width => "100%"
 
       $algos.each do |algo|
