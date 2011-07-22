@@ -1,7 +1,12 @@
-$algos = %w(bubble cocktail comb heap insertion quick selection shell gnome oddeven stooge radix merge).sort
+# you're allowed to change these
+$algos = %w(bubble cocktail comb heap insertion quick selection shell gnome
+            oddeven stooge radix merge).sort
 
 $points = 50
 $pwidth = 10
+$fps    = 10
+
+# don't touch anything down here unless you know what you're doing.
 
 class Array
   attr_reader :logs
@@ -27,33 +32,50 @@ end
 
 $width = $points * $pwidth
 
-Shoes.app :width => $width, :height => $width + 150, :resizable => false do
+Shoes.app :width => $width, :height => $width + 200, :resizable => false do
   def start(algo)
+    @title.text = algo + "sort"
     @timer.stop if @timer
     logsindex = 0
     logs = send("#{algo}sort", $points.times.to_a.shuffle).logs
-    @timer = every(0.1) do
+
+    @drawbox.clear do
+      background darkgray
+      fill black
+      stroke black
+
+      @rects = []
+      logs.first.each_index do |i|
+        @rects[logs.first[i]] = rect(i * $pwidth, logs.first[i] * $pwidth,
+                                     $pwidth, $pwidth)
+      end
+    end
+    @timer = animate($fps) do
       unless logsindex == logs.size
-        @drawbox.clear do
-          @status.text = "#{logsindex + 1} / #{logs.size}"
-          @progress.fraction = (logsindex + 1).to_f / logs.size.to_f
+        @status.text = "#{logsindex + 1} / #{logs.size}"
+        @progress.fraction = (logsindex + 1).to_f / logs.size.to_f
 
-          fill black
-          stroke black
-
-          logs[logsindex].each_index do |i|
-            rect(i * $pwidth, $width - logs[logsindex][i] * $pwidth,
-                 $pwidth, $pwidth)
-          end
-
-          logsindex += 1
+        logs[logsindex].each_index do |i|
+          @rects[i].move(i * $pwidth, logs[logsindex][i] * $pwidth)
         end
+
+        logsindex += 1
+      else
+        @title.text = "pick an algo."
+        @timer.stop
       end
     end
   end
 
   stack do
-    @drawbox = stack :height => $points * $pwidth
+    flow :width => "100%" do
+      background black
+      @title = title "pick an algo.", :align => "center", :stroke => white
+    end
+
+    @drawbox = stack :width => "100%", :height => $width do
+      background darkgray
+    end
 
     flow do
       @status   = para "status"
