@@ -2,35 +2,20 @@
 $algos = %w(bubble cocktail comb heap insertion quick selection shell gnome
             oddeven stooge radix merge).sort
 
+# these are just initial values, change them in the settings dialog.
 $points = 100
-$pwidth = 5
 $fps    = 10
 
 # don't touch anything down here unless you know what you're doing.
 
-class Array
-  attr_reader :logs
-  def start_logging
-    @logs = [dup]
-    @logging = true
-  end
-
-  def logging?
-    @logging
-  end
-
-  def log
-    raise "not logging" unless @logging
-
-    @logs << dup
-  end
-end
+require './sortvis'
 
 $algos.each do |algo|
   require "./algos/#{algo}.rb"
 end
 
-$width = $points * $pwidth
+$width = 500
+$pwidth = $width / $points
 
 Shoes.app :width => $width, :height => $width + 200, :resizable => false do
   def start(algo)

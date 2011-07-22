@@ -1,5 +1,10 @@
 # quicksort((0..100).to_a.shuffle).save("quicksort.png")
-require 'cairo'
+begin
+  require 'cairo'
+rescue LoadError
+  warn "need cairo for Array#save"
+end
+
 class Array
   def start_logging
     @logs = [dup]
