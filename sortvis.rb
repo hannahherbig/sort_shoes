@@ -1,10 +1,3 @@
-# quicksort((0..100).to_a.shuffle).save("quicksort.png")
-begin
-  require 'cairo'
-rescue LoadError
-  warn "need cairo for Array#save"
-end
-
 class Array
   attr_reader :logs
 
