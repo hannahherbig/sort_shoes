@@ -1,9 +1,9 @@
 def selectionsort
   (0...array.length).each do |j|
-    m = 0
-    (1...array.length).each do |i|
-      compare(m, i)
-      m = i if array[m] > array[i]
+    m = j
+    (j...array.length).each do |i|
+      compare(i, m)
+      m = i if array[i] < array[m]
     end
 
     unless m == j
