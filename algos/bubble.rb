@@ -1,4 +1,4 @@
-# bubbles ort works by going through two adjacent elements in an array and
+# bubble sort works by going through two adjacent elements in an array and
 # swapping them if the left one is greater, until the whole array is sorted.
 def bubblesort
   begin

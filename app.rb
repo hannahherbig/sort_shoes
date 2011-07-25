@@ -96,7 +96,7 @@ Shoes.app :width => 500, :height => 700, :resizable => false do
   end
 
   @algos = %w(bubble cocktail comb gnome heap insertion merge oddeven quick
-  radix selection shell stooge andrew).sort
+  radix selection shell stooge).sort
 
   def start(algo)
     if @thread.respond_to? :alive?
