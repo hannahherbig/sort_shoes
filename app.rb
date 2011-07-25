@@ -1,55 +1,123 @@
-# you're allowed to change these
-$algos = %w(bubble cocktail comb heap insertion quick selection shell gnome
-            oddeven stooge radix merge).sort
+Shoes.app :width => 500, :height => 700, :resizable => false do
+  @width       = 500
+  @point_width = 5
+  @line        = 0
 
-# these are just initial values, change them in the settings dialog.
-$points = 100
-$fps    = 10
+  def array
+    @array
+  end
 
-# don't touch anything down here unless you know what you're doing.
+  # call this with the two indices of the values you're about to compare
+  def compare(*indices)
+    @slot.clear do
+      background darkgray
+      @array.each_index do |i|
+        if indices.include? i
+          fill red
+          stroke red
+        else
+          fill black
+          stroke black
+        end
 
-require './sortvis'
+        rect(i * @point_width, array[i] * @point_width, @point_width,
+        @width - array[i] * @point_width)
+      end
 
-$algos.each do |algo|
-  require "./algos/#{algo}.rb"
-end
+      stroke gray
+      line(0, @line * @point_width, @width, @line * @point_width)
+    end
 
-$width = 500
-$pwidth = $width / $points
+    wait
+  end
 
-Shoes.app :width => $width, :height => $width + 200, :resizable => false do
-  def start(algo)
-    @title.text = algo + "sort"
-    @timer.stop if @timer
-    logsindex = 0
-    logs = send("#{algo}sort", $points.times.to_a.shuffle).logs
-
-    @drawbox.clear do
+  # call this after you change the array
+  def log
+    @slot.clear do
       background darkgray
       fill black
       stroke black
 
-      @rects = []
-      logs.first.each_index do |i|
-        @rects[logs.first[i]] = rect(i * $pwidth, logs.first[i] * $pwidth,
-                                     $pwidth, $pwidth)
+      @array.each_index do |i|
+        rect(i * @point_width, array[i] * @point_width, @point_width,
+        @width - array[i] * @point_width)
       end
-    end
-    @timer = animate($fps) do
-      unless logsindex == logs.size
-        @status.text = "#{logsindex + 1} / #{logs.size}"
-        @progress.fraction = (logsindex + 1).to_f / logs.size.to_f
 
-        logs[logsindex].each_index do |i|
-          @rects[i].move(i * $pwidth, logs[logsindex][i] * $pwidth)
+      stroke gray
+      line(0, @line * @point_width, @width, @line * @point_width)
+    end
+
+    wait
+  end
+
+  def wait
+    sleep 1.0/30.0
+  end
+
+  def quicksort(left=0, right=nil)
+    right = array.size - 1 unless right
+
+    l, r = left, right
+
+    if l <= r
+      mid = array[(left+right)/2]
+      @line = mid
+      while l <= r
+        compare(array.index(mid), l)
+        while l <= right && array[l] < mid
+          l += 1
+          compare(array.index(mid), l)
         end
 
-        logsindex += 1
-      else
-        @title.text = "pick an algo."
-        @timer.stop
+        compare(array.index(mid), r)
+        while r > left and array[r] > mid
+          r -= 1
+          compare(array.index(mid), r)
+        end
+
+        if l <= r
+          unless l == r
+            array[l], array[r] = array[r], array[l]
+            log
+          end
+          l += 1
+          r -= 1
+        end
+      end
+
+      if left < r
+        quicksort(left, r)
+      end
+
+      if l < right
+        quicksort(l, right)
       end
     end
+  end
+
+  @algos = %w(bubble cocktail comb gnome heap insertion merge oddeven quick
+  radix selection shell stooge andrew).sort
+
+  def start(algo)
+    if @thread.respond_to? :alive?
+      @thread.kill if @thread.alive?
+    end
+    @title.text = algo + 'sort'
+
+    @line  = 0
+    @array = 100.times.to_a.shuffle
+
+    @thread = Thread.new do
+      send(algo + 'sort')
+
+      log
+
+      @title.text "pick an algo."
+    end
+  end
+
+  @algos.each do |algo|
+    require "./algos/#{algo}"
   end
 
   stack do
@@ -58,39 +126,14 @@ Shoes.app :width => $width, :height => $width + 200, :resizable => false do
       @title = title "pick an algo.", :align => "center", :stroke => white
     end
 
-    @drawbox = stack :width => "100%", :height => $width do
+    @slot = stack :height => 500, :width => 500 do
       background darkgray
     end
 
+    # links at the bottom
     flow do
-      @status   = para "status"
-      button 'settings', :align => :right do
-        dialog do
-          stack do
-            flow do
-              para "points: "
-              @points_el = edit_line $points
-            end
-
-            flow do
-              para "fps: "
-              @fps_el = edit_line $fps
-            end
-
-            button "save" do
-              $points = @points_el.text.to_i
-              $fps    = @fps_el.text.to_i
-              $pwidth = 500 / $points
-
-              close
-            end
-          end
-        end
-      end
-      @progress = progress :width => "100%"
-
-      $algos.each do |algo|
-        para link(algo) { start algo }
+      @algos.each do |algo|
+        para link(algo) { start(algo) }
       end
     end
   end

@@ -8,14 +8,12 @@ class Array
   end
 end
 
-def radixsort(a)
-  a.start_logging
-
+def radixsort
   shift = 1
   zeroes = []
   ones = []
-  until a.sorted?
-    orig = a.dup
+  until array.sorted?
+    orig = array.dup
     until orig.empty?
       item = orig.shift
       if (item & shift) == 0
@@ -24,18 +22,14 @@ def radixsort(a)
         ones.push item
       end
 
-      a.replace(zeroes + orig + ones)
+      array.replace(zeroes + orig + ones)
 
-      a.log if a.changed?
-
-      break if a.sorted?
+      log
     end
 
-    a.log
+    log
     shift <<= 1
     zeroes = []
     ones = []
   end
-
-  a
 end

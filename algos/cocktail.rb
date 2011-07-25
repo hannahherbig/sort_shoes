@@ -1,17 +1,16 @@
 # cocktail sort is the same as bubblesort except it also runs backwards
 # swapping elements after it goes forwards.
-def cocktailsort(a)
-  a.start_logging
-
+def cocktailsort
   begin
     swapped = false
     # forwards - same as bubblesort
-    0.upto(a.length - 2) do |i|
+    0.upto(array.length - 2) do |i|
       # compare each two adjacent elements
-      if a[i] > a[i + 1]
+      compare(i, i + 1)
+      if array[i] > array[i + 1]
         # if the left one is greater, swap them
-        a[i], a[i + 1] = a[i + 1], a[i]
-        a.log
+        array[i], array[i + 1] = array[i + 1], array[i]
+        #log
         swapped = true
       end
     end
@@ -20,14 +19,13 @@ def cocktailsort(a)
 
     swapped = false
     # backwards - the reverse of bubblesort
-    (a.length - 2).downto(0) do |i|
-      if a[i] > a[i + 1]
-        a[i], a[i + 1] = a[i + 1], a[i]
-        a.log
+    (array.length - 2).downto(0) do |i|
+      compare(i, i + 1)
+      if array[i] > array[i + 1]
+        array[i], array[i + 1] = array[i + 1], array[i]
+        #log
         swapped = true
       end
     end
   end while swapped
-
-  a
 end

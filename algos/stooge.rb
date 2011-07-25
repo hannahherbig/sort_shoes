@@ -1,16 +1,15 @@
-def stoogesort(a, i=0, j=nil)
-  a.start_logging unless a.logging?
-  j = a.length - 1 if j == nil
-  if a[j] < a[i]
-    a[i], a[j] = a[j], a[i]
-    a.log
-  end
-  if j - i > 1
-    t = (j - i + 1) / 3
-    stoogesort(a, i, j - t)
-    stoogesort(a, i + t, j)
-    stoogesort(a, i, j - t)
+def stoogesort(i=0, j=nil)
+  j = array.length - 1 if j == nil
+  compare(j, i)
+  if array[j] < array[i]
+    array[i], array[j] = array[j], array[i]
+    log
   end
 
-  a
+  if j - i > 1
+    t = (j - i + 1) / 3
+    stoogesort(i, j - t)
+    stoogesort(i + t, j)
+    stoogesort(i, j - t)
+  end
 end

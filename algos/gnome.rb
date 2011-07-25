@@ -1,18 +1,18 @@
 # gnome sort is the same as insertion sort except instead of "inserting" the
 # item where it belongs, it moves it through a series of swaps.
-def gnomesort(a)
-  a.start_logging
-
+def gnomesort
   i = 0
-  while i < a.length
-    if i == 0 || a[i] > a[i - 1]
+  while i < array.length
+    if i == 0
       i += 1
     else
-      a[i], a[i - 1] = a[i - 1], a[i]
-      a.log
-      i -= 1
+      compare(i, i - 1)
+      if array[i] > array[i - 1]
+        i += 1
+      else
+        array[i], array[i - 1] = array[i - 1], array[i]
+        i -= 1
+      end
     end
   end
-
-  a
 end

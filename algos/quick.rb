@@ -1,24 +1,28 @@
-def quicksort(a, left=0, right=nil)
-  a.start_logging unless a.logging?
-
-  right = a.size - 1 unless right
+def quicksort(left=0, right=nil)
+  right = array.size - 1 unless right
 
   l, r = left, right
 
   if l <= r
-    mid = a[(left+right)/2]
+    mid = array[(left+right)/2]
+    @line = mid
     while l <= r
-      while l <= right && a[l] < mid
+      compare(array.index(mid), l)
+      while l <= right && array[l] < mid
         l += 1
+        compare(array.index(mid), l)
       end
-      while r > left and a[r] > mid
+
+      compare(array.index(mid), r)
+      while r > left and array[r] > mid
         r -= 1
+        compare(array.index(mid), r)
       end
 
       if l <= r
         unless l == r
-          a[l], a[r] = a[r], a[l]
-          a.log
+          array[l], array[r] = array[r], array[l]
+          log
         end
         l += 1
         r -= 1
@@ -26,12 +30,11 @@ def quicksort(a, left=0, right=nil)
     end
 
     if left < r
-      quicksort(a, left, r)
+      quicksort(left, r)
     end
+
     if l < right
-      quicksort(a, l, right)
+      quicksort(l, right)
     end
   end
-
-  a
 end

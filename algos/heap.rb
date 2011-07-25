@@ -1,13 +1,13 @@
-def sift(a, start, count)
+def sift(start, count)
   root = start
   while (root * 2) + 1 < count
     child = (root * 2) + 1
-    if child < (count - 1) && a[child] < a[child + 1]
+    if child < (count - 1) && array[child] < array[child + 1]
       child += 1
     end
-    if a[root] < a[child]
-      a[root], a[child] = a[child], a[root]
-      a.log
+    compare(root, child)
+    if array[root] < array[child]
+      array[root], array[child] = array[child], array[root]
       root = child
     else
       return
@@ -15,21 +15,16 @@ def sift(a, start, count)
   end
 end
 
-def heapsort(a)
-  a.start_logging
-
-  start = a.length / 2 - 1
-  finish = a.length - 1
+def heapsort
+  start = array.length / 2 - 1
+  finish = array.length - 1
   while start >= 0
-    sift(a, start, a.length)
+    sift(start, array.length)
     start -= 1
   end
   while finish > 0
-    a[finish], a[0] = a[0], a[finish]
-    a.log
-    sift(a, 0, finish)
+    array[finish], array[0] = array[0], array[finish]
+    sift(0, finish)
     finish -= 1
   end
-
-  a
 end

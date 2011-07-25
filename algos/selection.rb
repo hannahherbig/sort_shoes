@@ -1,12 +1,14 @@
-def selectionsort(a)
-  a.start_logging
-  (0...a.length).each do |j|
-    m = a.index(a[(j)..-1].min)
+def selectionsort
+  (0...array.length).each do |j|
+    m = 0
+    (1...array.length).each do |i|
+      compare(m, i)
+      m = i if array[m] > array[i]
+    end
+
     unless m == j
-      a[m], a[j] = a[j], a[m]
-      a.log
+      array[m], array[j] = array[j], array[m]
+      log
     end
   end
-
-  a
 end

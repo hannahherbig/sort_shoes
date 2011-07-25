@@ -1,20 +1,17 @@
 # bubbles ort works by going through two adjacent elements in an array and
 # swapping them if the left one is greater, until the whole array is sorted.
-def bubblesort(a)
-  a.start_logging
-
+def bubblesort
   begin
     swapped = false
-    (0..(a.size - 2)).each do |i|
+    (0..(array.size - 2)).each do |i|
       # compare each two adjacent elements
-      if a[i] > a[i + 1]
+      compare(i, i + 1)
+      if array[i] > array[i + 1]
         # swap them if the one on the left is greater
-        a[i], a[i + 1] = a[i + 1], a[i]
+        array[i], array[i + 1] = array[i + 1], array[i]
         swapped = true
-        a.log
+        #log
       end
     end
   end while swapped
-
-  a
 end
