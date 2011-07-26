@@ -11,7 +11,7 @@ Shoes.app :width => 500, :height => 700, :resizable => false do
   def compare(*indices)
     @slot.clear do
       background darkgray
-      @array.each_index do |i|
+      @array.each_with_index do |v, i|
         if indices.include? i
           fill red
           stroke red
@@ -20,8 +20,8 @@ Shoes.app :width => 500, :height => 700, :resizable => false do
           stroke black
         end
 
-        rect(i * @point_width, array[i] * @point_width, @point_width,
-        @width - array[i] * @point_width)
+        rect(i * @point_width, v * @point_width, @point_width,
+        @width - v * @point_width)
       end
 
       stroke gray
@@ -38,9 +38,9 @@ Shoes.app :width => 500, :height => 700, :resizable => false do
       fill black
       stroke black
 
-      @array.each_index do |i|
-        rect(i * @point_width, array[i] * @point_width, @point_width,
-        @width - array[i] * @point_width)
+      @array.each_with_index do |v, i|
+        rect(i * @point_width, v * @point_width, @point_width,
+        @width - v * @point_width)
       end
 
       stroke gray
@@ -52,47 +52,6 @@ Shoes.app :width => 500, :height => 700, :resizable => false do
 
   def wait
     sleep 1.0/30.0
-  end
-
-  def quicksort(left=0, right=nil)
-    right = array.size - 1 unless right
-
-    l, r = left, right
-
-    if l <= r
-      mid = array[(left+right)/2]
-      @line = mid
-      while l <= r
-        compare(array.index(mid), l)
-        while l <= right && array[l] < mid
-          l += 1
-          compare(array.index(mid), l)
-        end
-
-        compare(array.index(mid), r)
-        while r > left and array[r] > mid
-          r -= 1
-          compare(array.index(mid), r)
-        end
-
-        if l <= r
-          unless l == r
-            array[l], array[r] = array[r], array[l]
-            log
-          end
-          l += 1
-          r -= 1
-        end
-      end
-
-      if left < r
-        quicksort(left, r)
-      end
-
-      if l < right
-        quicksort(l, right)
-      end
-    end
   end
 
   @algos = %w(bubble cocktail comb gnome heap insertion merge oddeven quick
