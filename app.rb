@@ -1,8 +1,10 @@
 Shoes.app :width => 500, :height => 700, :resizable => false do
-  @width       = 500
-  @points      = 50
-  @point_width = 10
-  @line        = 0
+  @width        = 500
+  @height       = 500
+  @points       = 50
+
+  @point_width  = @width / @points
+  @point_height = @height / @points
 
   def array
     @array
@@ -16,7 +18,7 @@ Shoes.app :width => 500, :height => 700, :resizable => false do
       r = @rects[v]
 
       unless r.left == i * @point_width
-        r.move(i * @point_width, @width - (v + 1) * @point_width)
+        r.move(i * @point_width, @height - (v + 1) * @point_height)
       end
 
       if indices.include? i
@@ -30,9 +32,10 @@ Shoes.app :width => 500, :height => 700, :resizable => false do
       end
     end
 
-    unless @real_line.top == @width - (@line + 1) * @point_width
-      @real_line.move(0, @width - (@line + 1) * @point_width)
-    end
+    # XXX
+    #unless @real_line.top == @width - (@line + 1) * @point_width
+    #  @real_line.move(0, @width - (@line + 1) * @point_width)
+    #end
 
     wait
   end
@@ -47,8 +50,9 @@ Shoes.app :width => 500, :height => 700, :resizable => false do
   def log
     @array.each_with_index do |v, i|
       r = @rects[v]
+
       unless r.left == i * @point_width
-        r.move(i * @point_width, @width - (v + 1) * @point_width)
+        r.move(i * @point_width, @height - (v + 1) * @point_height)
       end
 
       unless r.style[:stroke] == black && r.style[:fill] == black
@@ -56,9 +60,10 @@ Shoes.app :width => 500, :height => 700, :resizable => false do
       end
     end
 
-    unless @real_line.top == @width - (@line + 1) * @point_width
-      @real_line.move(0, @width - (@line + 1) * @point_width)
-    end
+    # XXX
+    #unless @real_line.top == @width - (@line + 1) * @point_width
+    #  @real_line.move(0, @width - (@line + 1) * @point_width)
+    #end
 
     wait
   end
@@ -79,7 +84,7 @@ Shoes.app :width => 500, :height => 700, :resizable => false do
     @compares.text = "0"
     @swaps.text    = "0"
 
-    @array = @points.times.to_a.reverse
+    @array = @points.times.to_a.shuffle
     @line  = @points - 1
 
     @thread = Thread.new do
@@ -98,13 +103,14 @@ Shoes.app :width => 500, :height => 700, :resizable => false do
       stroke black
 
       @array.each_with_index do |v, i|
-        @rects[v] = rect(i * @point_width, @width - (v + 1) * @point_width,
-                         @point_width, (v + 1) * @point_width)
+        @rects[v] = rect(i * @point_width, @height - (v + 1) * @point_height,
+                         @point_width, (v + 1) * @point_height)
       end
 
-      stroke gray
-      @real_line = line(0, @width - (@line + 1) * @point_width, @width,
-           @width - (@line + 1) * @point_width)
+      # XXX
+      #stroke gray
+      #@real_line = line(0, @width - (@line + 1) * @point_width, @width,
+      #     @width - (@line + 1) * @point_width)
     end
   end
 
@@ -118,7 +124,7 @@ Shoes.app :width => 500, :height => 700, :resizable => false do
       @title = title "pick an algo.", :align => "center", :stroke => white
     end
 
-    @slot = stack :height => 500, :width => 500 do
+    @slot = stack :height => @height, :width => @width do
       background darkgray
     end
 
