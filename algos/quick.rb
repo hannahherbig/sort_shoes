@@ -21,7 +21,7 @@ def quicksort(left=0, right=nil)
 
       if l <= r
         unless l == r
-          array[l], array[r] = array[r], array[l]
+          swap(l, r)
           log
         end
         l += 1

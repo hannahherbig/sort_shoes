@@ -10,7 +10,7 @@ def combsort
     0.upto(array.length - gap - 1) do |i|
       compare(i, i + gap)
       if array[i] > array[i + gap]
-        array[i], array[i + gap] = array[i + gap], array[i]
+        swap(i, i + gap)
         #log
         swaps = true
       end

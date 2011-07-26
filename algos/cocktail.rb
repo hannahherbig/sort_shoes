@@ -9,7 +9,7 @@ def cocktailsort
       compare(i, i + 1)
       if array[i] > array[i + 1]
         # if the left one is greater, swap them
-        array[i], array[i + 1] = array[i + 1], array[i]
+        swap(i, i + 1)
         #log
         swapped = true
       end
@@ -22,7 +22,7 @@ def cocktailsort
     (array.length - 2).downto(0) do |i|
       compare(i, i + 1)
       if array[i] > array[i + 1]
-        array[i], array[i + 1] = array[i + 1], array[i]
+        swap(i, i + 1)
         #log
         swapped = true
       end

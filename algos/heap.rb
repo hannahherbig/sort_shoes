@@ -7,7 +7,7 @@ def sift(start, count)
     end
     compare(root, child)
     if array[root] < array[child]
-      array[root], array[child] = array[child], array[root]
+      swap(root, child)
       root = child
     else
       return
@@ -23,7 +23,7 @@ def heapsort
     start -= 1
   end
   while finish > 0
-    array[finish], array[0] = array[0], array[finish]
+    swap(finish, 0)
     sift(0, finish)
     finish -= 1
   end

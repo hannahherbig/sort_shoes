@@ -7,7 +7,7 @@ def selectionsort
     end
 
     unless m == j
-      array[m], array[j] = array[j], array[m]
+      swap(m, j)
       log
     end
   end

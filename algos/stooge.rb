@@ -2,7 +2,7 @@ def stoogesort(i=0, j=nil)
   j = array.length - 1 if j == nil
   compare(j, i)
   if array[j] < array[i]
-    array[i], array[j] = array[j], array[i]
+    swap(i, j)
     log
   end
 

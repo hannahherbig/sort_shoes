@@ -8,7 +8,7 @@ def shellsort
       while i >= 0
         compare(j, i)
         if r < array[i]
-          array[i + h], array[i] = array[i], array[i + h]
+          swap(i + h, i)
           i -= h
         else
           break

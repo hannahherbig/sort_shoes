@@ -10,7 +10,7 @@ def gnomesort
       if array[i] > array[i - 1]
         i += 1
       else
-        array[i], array[i - 1] = array[i - 1], array[i]
+        swap(i, i - 1)
         i -= 1
       end
     end

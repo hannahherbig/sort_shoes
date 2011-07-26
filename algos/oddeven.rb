@@ -5,7 +5,7 @@ def oddevensort(nloops=2)
       (n...(array.length - 1)).step(nloops) do |i|
         compare(i, i + 1)
         if array[i] > array[i + 1]
-          array[i], array[i + 1] = array[i + 1], array[i]
+          swap(i, i + 1)
           finished = false
         end
       end

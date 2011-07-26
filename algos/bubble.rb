@@ -8,7 +8,7 @@ def bubblesort
       compare(i, i + 1)
       if array[i] > array[i + 1]
         # swap them if the one on the left is greater
-        array[i], array[i + 1] = array[i + 1], array[i]
+        swap(i, i + 1)
         swapped = true
         #log
       end
